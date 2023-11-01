@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.jawbts.bigcannonsfix.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "CannonMountBlockEntityMixin",
+    "YawControllerBlockEntityMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
