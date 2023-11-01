@@ -50,6 +50,8 @@ public abstract class CannonMountBlockEntityMixin extends KineticBlockEntity {
     protected double sequencedAngleLimitYaw = -1;
     @Unique
     protected double sequencedAngleLimitPitch = -1;
+    @Unique
+    protected float yawSequence = -1;
     private static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
 
 
@@ -61,8 +63,9 @@ public abstract class CannonMountBlockEntityMixin extends KineticBlockEntity {
     public void onSpeedChanged(float prevSpeed) {
         // YawControllerBlockEntity会调用这个方法
         if (prevSpeed >= 1024f) {
-            sequencedAngleLimitYaw = Math.abs((prevSpeed - 1024f) * getTheoreticalYawSpeedMixin()) * 0.125f;
+            yawSequence = prevSpeed - 1024f;
         } else {
+            yawSequence = -1;
             sequencedAngleLimitYaw = -1;
             super.onSpeedChanged(prevSpeed);
         }
@@ -112,13 +115,17 @@ public abstract class CannonMountBlockEntityMixin extends KineticBlockEntity {
             float yawSpeedM = getAngularSpeedMixin(this::getYawSpeedMixin, clientYawDiff);
             float pitchSpeed = getAngularSpeedMixin(this::getSpeed, clientPitchDiff);
 
+            if (yawSequence >= 0) {
+                sequencedAngleLimitYaw = Math.abs(yawSequence * getTheoreticalYawSpeedMixin());
+                yawSequence = -1;
+            }
 
             if (sequencedAngleLimitPitch >= 0) {
                 pitchSpeed = (float) Mth.clamp(pitchSpeed, -sequencedAngleLimitPitch, sequencedAngleLimitPitch);
                 sequencedAngleLimitPitch = sequencedAngleLimitPitch - Math.abs(pitchSpeed);
             }
             if (sequencedAngleLimitYaw >= 0) {
-                //yawSpeedM = (float) Mth.clamp(yawSpeedM, -sequencedAngleLimitYaw, sequencedAngleLimitYaw);
+                yawSpeedM = (float) Mth.clamp(yawSpeedM, -sequencedAngleLimitYaw, sequencedAngleLimitYaw);
                 sequencedAngleLimitYaw = Math.max(0, sequencedAngleLimitYaw - Math.abs(yawSpeedM));
             }
 

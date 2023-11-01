@@ -21,6 +21,8 @@ public abstract class YawControllerBlockEntityMixin extends KineticBlockEntity {
 
     // overwrite
     public void onSpeedChanged(float prevSpeed) {
+        super.onSpeedChanged(prevSpeed);
+
         if (sequenceContext != null
                 && sequenceContext.instruction() == SequencerInstructions.TURN_ANGLE) {
             CannonMountBlockEntity cmbe = getCannonMount();
