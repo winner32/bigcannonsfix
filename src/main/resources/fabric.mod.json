@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "bigcannonsfix",
+  "version": "${version}",
+  "name": "bigcannonsfix",
+  "description": "",
+  "authors": [
+    "winner32"
+  ],
+  "contact": {
+    "repo": "https://github.com/Winner32/bigcannonsfix"
+  },
+  "license": "GPL-3.0",
+  "icon": "assets/bigcannonsfix/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "org.jawbts.bigcannonsfix.client.BigcannonsfixClient"
+    ],
+    "main": [
+      "org.jawbts.bigcannonsfix.Bigcannonsfix"
+    ]
+  },
+  "mixins": [
+    "bigcannonsfix.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
