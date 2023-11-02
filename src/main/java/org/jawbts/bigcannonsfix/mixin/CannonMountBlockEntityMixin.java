@@ -116,7 +116,7 @@ public abstract class CannonMountBlockEntityMixin extends KineticBlockEntity {
             float pitchSpeed = getAngularSpeedMixin(this::getSpeed, clientPitchDiff);
 
             if (yawSequence >= 0) {
-                sequencedAngleLimitYaw = Math.abs(yawSequence * getTheoreticalYawSpeedMixin());
+                sequencedAngleLimitYaw = Math.abs(yawSequence * getTheoreticalYawSpeedMixin()) * 0.125f;
                 yawSequence = -1;
             }
 
@@ -200,10 +200,10 @@ public abstract class CannonMountBlockEntityMixin extends KineticBlockEntity {
 
     // overwrite
     public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
-        boolean added = super.addToGoggleTooltip(tooltip, isPlayerSneaking);
-
+        super.addToGoggleTooltip(tooltip, isPlayerSneaking);
 
         Lang.number(cannonPitch).forGoggles(tooltip, 1);
+        Lang.number(cannonYaw).forGoggles(tooltip, 1);
 
         return true;
     }
